@@ -6,16 +6,16 @@ import javax.persistence.*;
 public class Part {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
-    private Boolean need;
+    private Integer need;
     private Integer number;
 
     public Part() {}
 
-    public Part(String name, Boolean need, Integer number) {
+    public Part(String name, Integer need, Integer number) {
         this.name = name;
         this.need = need;
         this.number = number;
@@ -37,11 +37,11 @@ public class Part {
         this.name = name;
     }
 
-    public Boolean getNeed() {
+    public Integer getNeed() {
         return need;
     }
 
-    public void setNeed(Boolean need) {
+    public void setNeed(Integer need) {
         this.need = need;
     }
 
