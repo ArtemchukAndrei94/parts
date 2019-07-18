@@ -15,6 +15,13 @@ public class Part {
 
     public Part() {}
 
+    public Part(Integer id,String name, Integer need, Integer number) {
+        this.id = id;
+        this.name = name;
+        this.need = need;
+        this.number = number;
+    }
+
     public Part(String name, Integer need, Integer number) {
         this.name = name;
         this.need = need;
