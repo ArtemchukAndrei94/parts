@@ -1,10 +1,11 @@
 <#import "common.ftl" as c>
 <#import "add.ftl" as a>
-
+<#import "pager.ftl" as p>
 
 
 <@c.page>
 
+    <#include "chooseSort.ftl">
     <table class="table table-striped" border="1">
         <thead class="thead-dark">
         <tr>
@@ -16,7 +17,7 @@
         </tr>
         </thead>
         <tbody>
-        <#list parts as part>
+        <#list page.content as part>
             <tr>
                 <td> ${part.name}</td>
                 <td> ${part.need}</td>
@@ -36,6 +37,8 @@
         </#list>
         </tbody>
     </table>
+
+    <@p.pager url page/>
 
     <div>
         <span>Количество деталей : ${countAll}</span>

@@ -1,14 +1,18 @@
 package com.parts.Repos;
 
 import com.parts.domain.Part;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
 
 
 public interface PartRepo extends CrudRepository<Part, Long> {
 
     Part findById(Integer id);
 
-    List<Part> findByName(String name);
+    Page<Part> findByName(String name, Pageable pageable);
+
+    Page<Part> findAll(Pageable pageable);
+
 }

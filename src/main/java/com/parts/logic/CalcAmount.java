@@ -1,6 +1,7 @@
 package com.parts.logic;
 
 import com.parts.domain.Part;
+import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,9 +47,9 @@ public class CalcAmount {
         return newParts.get(0).getNumber();
     }
 
-    public static List<Integer> getInfo(Iterable<Part> parts){
+    public static List<Integer> getInfo(Page<Part> parts){
         List<Integer> information = new ArrayList<>();
-        information.add(((Collection<?>)parts).size());
+        /*information.add(((Collection<?>)parts).size());*/
         information.add(CalcAmount.calculate(parts));
 
         return information;

@@ -4,6 +4,10 @@ import com.parts.Repos.PartRepo;
 import com.parts.domain.Part;
 import com.parts.logic.CalcAmount;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,18 +23,25 @@ public class SearchController {
 
 
     @PostMapping("/search")
-    public String search(@RequestParam(required = false) String name, Map<String, Object> model){
-        Iterable<Part> parts;
-        if (!name.equals(""))
-            parts = partRepo.findByName(name);
+    public String search(@RequestParam(required = false) String name,
+                         Map<String, Object> model,
+                         @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable){
+        Page<Part> page;
+        if (!name.equals("")) {
+            page = partRepo.findByName(name, pageable);
+            if (page.getNumberOfElements()==0){
+                page = partRepo.findAll(pageable);
+            }
+        }
         else
-            parts = partRepo.findAll();
+            page = partRepo.findAll(pageable);
 
-        List<Integer> information = CalcAmount.getInfo(parts);
+        List<Integer> information = CalcAmount.getInfo(page);
 
-        model.put("parts", parts);
-        model.put("countAll", information.get(0));
-        model.put("countMin", information.get(1));
+        model.put("page", page);
+        model.put("countAll", page.getSize());
+        model.put("countMin", information.get(0));
+        model.put("url", "/search");
 
         return "search";
     }

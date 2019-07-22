@@ -4,6 +4,10 @@ import com.parts.Repos.PartRepo;
 import com.parts.domain.Part;
 import com.parts.logic.CalcAmount;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,17 +39,20 @@ public class EditController {
                       @RequestParam String name,
                       @RequestParam int need,
                       @RequestParam int number,
-                      Map<String, Object> model){
+                      Map<String, Object> model,
+                      @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable){
 
         Part part = new Part(id,name,need,number);
         partRepo.save(part);
 
-        Iterable<Part> parts = partRepo.findAll();
-        List<Integer> information = CalcAmount.getInfo(parts);
+        Page<Part> page = partRepo.findAll(pageable);
+        List<Integer> information = CalcAmount.getInfo(page);
 
-        model.put("parts", parts);
-        model.put("countAll", information.get(0));
-        model.put("countMin", information.get(1));
+        model.put("page", page);
+        model.put("countAll", page.getSize());
+        model.put("countMin", information.get(0));
+        model.put("url", "/main");
+
         return "main";
 
     }

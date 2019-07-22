@@ -16,7 +16,7 @@
     <#include "navbar.ftl">
 
     <div class="container mt-5">
-    <#include "chooseSort.ftl">
+
     <#nested>
     </div>
     <!-- Optional JavaScript -->
