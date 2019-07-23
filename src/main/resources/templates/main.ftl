@@ -1,11 +1,11 @@
 <#import "parts/common.ftl" as c>
 <#import "add.ftl" as a>
 <#import "parts/pager.ftl" as p>
-
+<#import "parts/chooseSort.ftl" as choose>
 
 <@c.page>
 
-    <#include "parts/chooseSort.ftl">
+    <@choose.select/>
     <#include "parts/table.ftl">
     <@p.pager url page/>
 

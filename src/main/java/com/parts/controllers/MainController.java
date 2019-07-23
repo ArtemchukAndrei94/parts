@@ -22,13 +22,15 @@ public class MainController {
     private PartRepo partRepo;
 
     @GetMapping("/main")
-    public String greeting(Map<String, Object> model, @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable) {
+    public String greeting(Map<String, Object> model,
+                           @PageableDefault(sort = {"id"},
+                                   direction = Sort.Direction.ASC) Pageable pageable) {
 
         Page<Part> page = partRepo.findAll(pageable);
 
+
+
         List<Integer> information = CalcAmount.getInfo(page);
-
-
 
         model.put("page", page);
         model.put("countAll", page.getSize());
@@ -38,12 +40,11 @@ public class MainController {
     }
 
 
-
     @GetMapping("/delete{id}")
     public String delete(@PathVariable("id") Integer id,
                          Map<String, Object> model,
                          @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable
-                        ){
+    ) {
         Part partRepoById = partRepo.findById(id);
 
         if (partRepoById != null)
@@ -63,29 +64,33 @@ public class MainController {
     }
 
 
+    @PostMapping("/select")
+    public String greeting(Map<String, Object> model,
+                           @PageableDefault(sort = {"id"},
+                                   direction = Sort.Direction.ASC) Pageable pageable,
+                            Integer need) {
+
+        Page<Part> page;
 
 
 
+        if (need == 2) {
+            page = partRepo.findAll(pageable);
+        } else if (need == 1){
+            page = partRepo.findByNeed(need, pageable);
+        } else {
+            page = partRepo.findByNeed(need, pageable);
+        }
 
 
+        List<Integer> information = CalcAmount.getInfo(page);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        model.put("page", page);
+        model.put("countAll", page.getSize());
+        model.put("countMin", information.get(0));
+        model.put("url", "/main");
+        return "main";
+    }
 
 
 }
