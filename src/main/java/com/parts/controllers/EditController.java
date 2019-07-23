@@ -1,4 +1,4 @@
-package com.parts;
+package com.parts.controllers;
 
 import com.parts.Repos.PartRepo;
 import com.parts.domain.Part;
