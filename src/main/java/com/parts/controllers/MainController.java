@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-@RequestMapping("/")
+
 @Controller
 public class MainController {
 
@@ -65,20 +65,18 @@ public class MainController {
 
 
     @PostMapping("/select")
-    public String greeting(Map<String, Object> model,
-                           @PageableDefault(sort = {"id"},
-                                   direction = Sort.Direction.ASC) Pageable pageable,
-                            Integer need) {
+    public String select(@RequestParam Integer need,
+            Map<String, Object> model,
+                           @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable
+                            ) {
 
-        Page<Part> page;
+        Page<Part> page = partRepo.findAll(pageable);
 
 
 
-        if (need == 2) {
-            page = partRepo.findAll(pageable);
-        } else if (need == 1){
+        if (need == 1) {
             page = partRepo.findByNeed(need, pageable);
-        } else {
+        } else if (need == 0){
             page = partRepo.findByNeed(need, pageable);
         }
 
@@ -87,7 +85,13 @@ public class MainController {
 
         model.put("page", page);
         model.put("countAll", page.getSize());
-        model.put("countMin", information.get(0));
+
+        if (information.size()==0)
+            model.put("countMin", 0);
+        else
+            model.put("countMin", information.get(0));
+
+
         model.put("url", "/main");
         return "main";
     }

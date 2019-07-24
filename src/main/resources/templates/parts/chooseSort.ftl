@@ -2,12 +2,12 @@
 <form method="post" action="/select">
     <div class="form-row align-items-center">
         <div class="col-auto my-1">
-            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="need">
-                <option  value="2" selected>Все комплектующие</option>
+            <select class="form-control mr-sm-2" name="need">
+                <option value="2" selected>Все комплектующие</option>
                 <option value="1">Необходимые</option>
                 <option value="0">Опциональные</option>
-                <#--<option value="3">Опциональные</option>-->
             </select>
+            <button class="btn btn-info" type="submit">Сортировать</button>
         </div>
     </div>
 </form>

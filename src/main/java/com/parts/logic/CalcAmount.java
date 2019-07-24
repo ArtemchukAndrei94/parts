@@ -44,7 +44,10 @@ public class CalcAmount {
 
         newParts.sort((o1, o2) -> o1.getNumber() - o2.getNumber());
 
-        return newParts.get(0).getNumber();
+        if (newParts.size()==0)
+            return 0;
+        else
+            return newParts.get(0).getNumber();
     }
 
     public static List<Integer> getInfo(Page<Part> parts){
