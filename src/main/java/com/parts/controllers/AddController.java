@@ -38,12 +38,12 @@ public class AddController {
         partRepo.save(part);
 
         Page<Part> page = partRepo.findAll(pageable);
-        List<Integer> information = CalcAmount.getInfo(page);
+        Integer countMin = CalcAmount.calculate(partRepo.findAll());
 
         model.put("page", page);
-        model.put("countAll", page.getSize());
-        model.put("countMin", information.get(0));
-        model.put("url", "/add");
+        model.put("countAll", page.getTotalElements());
+        model.put("countMin", countMin);
+        model.put("url", "/main");
         return "main";
 
     }

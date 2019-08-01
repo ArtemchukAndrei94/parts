@@ -7,7 +7,6 @@
 
     <@choose.select/>
     <@p.pager url page/>
-
     <#include "parts/table.ftl">
 
 

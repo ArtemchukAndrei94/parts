@@ -23,22 +23,18 @@ public class MainController {
 
     @GetMapping("/main")
     public String greeting(Map<String, Object> model,
-                           @PageableDefault(sort = {"id"},
-                                   direction = Sort.Direction.ASC) Pageable pageable) {
+                           @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable) {
 
         Page<Part> page = partRepo.findAll(pageable);
 
-
-
-        List<Integer> information = CalcAmount.getInfo(page);
+        Integer countMin = CalcAmount.calculate(partRepo.findAll());
 
         model.put("page", page);
-        model.put("countAll", page.getSize());
-        model.put("countMin", information.get(0));
+        model.put("countAll", page.getTotalElements());
+        model.put("countMin", countMin);
         model.put("url", "/main");
         return "main";
     }
-
 
     @GetMapping("/delete{id}")
     public String delete(@PathVariable("id") Integer id,
@@ -50,51 +46,14 @@ public class MainController {
         if (partRepoById != null)
             partRepo.delete(partRepoById);
 
-
         Page<Part> page = partRepo.findAll(pageable);
-        List<Integer> information = CalcAmount.getInfo(page);
+        Integer countMin = CalcAmount.calculate(partRepo.findAll());
 
         model.put("page", page);
-        model.put("countAll", page.getSize());
-        model.put("countMin", information.get(0));
-        model.put("url", "/main");
-        return "main";
-
-
-    }
-
-
-    @PostMapping("/select")
-    public String select(@RequestParam Integer need,
-            Map<String, Object> model,
-                           @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable
-                            ) {
-
-        Page<Part> page = partRepo.findAll(pageable);
-
-
-
-        if (need == 1) {
-            page = partRepo.findByNeed(need, pageable);
-        } else if (need == 0){
-            page = partRepo.findByNeed(need, pageable);
-        }
-
-
-        List<Integer> information = CalcAmount.getInfo(page);
-
-        model.put("page", page);
-        model.put("countAll", page.getSize());
-
-        if (information.size()==0)
-            model.put("countMin", 0);
-        else
-            model.put("countMin", information.get(0));
-
-
+        model.put("countAll", page.getTotalElements());
+        model.put("countMin", countMin);
         model.put("url", "/main");
         return "main";
     }
-
 
 }

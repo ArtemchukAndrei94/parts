@@ -32,7 +32,7 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Количество</label>
             <div class="col-sm-10">
-                <input class="form-control" type="number" name="number" value="${part.number}"">
+                <input class="form-control" type="number" name="number" value="${part.number}">
             </div>
         </div>
         <div class="form-group row">

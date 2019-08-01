@@ -3,10 +3,12 @@ package com.parts.Repos;
 import com.parts.domain.Part;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
+import java.util.List;
 
 
-public interface PartRepo extends CrudRepository<Part, Long> {
+public interface PartRepo extends PagingAndSortingRepository<Part, Long> {
 
     Part findById(Integer id);
 
@@ -14,6 +16,11 @@ public interface PartRepo extends CrudRepository<Part, Long> {
 
     Page<Part> findAll(Pageable pageable);
 
+    List<Part> findAll();
+
     Page<Part> findByNeed(Integer need, Pageable pageable);
+
+
+
 
 }
