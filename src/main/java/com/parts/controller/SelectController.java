@@ -1,4 +1,4 @@
-package com.parts.controllers;
+package com.parts.controller;
 
 import com.parts.Repos.PartRepo;
 import com.parts.domain.Part;
@@ -27,7 +27,6 @@ public class SelectController {
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable) {
 
         Page<Part> page;
-        Integer countMin = CalcAmount.calculate(partRepo.findAll());
 
         if (need == 1)
             page = partRepo.findByNeed(need,pageable);
@@ -38,7 +37,7 @@ public class SelectController {
 
         model.put("page", page);
         model.put("countAll", page.getTotalElements());
-        model.put("countMin", countMin);
+        model.put("countMin", CalcAmount.calculate(partRepo.findAll()));
         model.put("url", "/select" + need.toString());
         return "select";
     }

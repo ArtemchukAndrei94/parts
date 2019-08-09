@@ -23,12 +23,12 @@
         </#if>
         <td> ${part.number}</td>
         <td>
-            <form action="/edit${part.id}">
+            <form method="get" action="/edit${part.id}">
                 <button class="btn btn-primary" type="submit">Редактировать</button>
             </form>
         </td>
         <td>
-            <form action="/delete${part.id}">
+            <form method="post" action="/delete${part.id}">
                 <button class="btn btn-danger" type="submit">Удалить</button>
             </form>
         </td>

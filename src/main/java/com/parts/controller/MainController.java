@@ -1,4 +1,4 @@
-package com.parts.controllers;
+package com.parts.controller;
 
 import com.parts.Repos.PartRepo;
 import com.parts.domain.Part;
@@ -9,9 +9,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.List;
 import java.util.Map;
 
 
@@ -25,18 +26,20 @@ public class MainController {
     public String greeting(Map<String, Object> model,
                            @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable) {
 
-        Page<Part> page = partRepo.findAll(pageable);
+        return getStringView(model, pageable);
+    }
 
-        Integer countMin = CalcAmount.calculate(partRepo.findAll());
+    private String getStringView(Map<String, Object> model, @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable) {
+        Page<Part> page = partRepo.findAll(pageable);
 
         model.put("page", page);
         model.put("countAll", page.getTotalElements());
-        model.put("countMin", countMin);
+        model.put("countMin", CalcAmount.calculate(partRepo.findAll()));
         model.put("url", "/main");
         return "main";
     }
 
-    @GetMapping("/delete{id}")
+    @PostMapping("/delete{id}")
     public String delete(@PathVariable("id") Integer id,
                          Map<String, Object> model,
                          @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable
@@ -46,14 +49,7 @@ public class MainController {
         if (partRepoById != null)
             partRepo.delete(partRepoById);
 
-        Page<Part> page = partRepo.findAll(pageable);
-        Integer countMin = CalcAmount.calculate(partRepo.findAll());
-
-        model.put("page", page);
-        model.put("countAll", page.getTotalElements());
-        model.put("countMin", countMin);
-        model.put("url", "/main");
-        return "main";
+        return getStringView(model, pageable);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.parts.controllers;
+package com.parts.controller;
 
 import com.parts.Repos.PartRepo;
 import com.parts.domain.Part;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -36,12 +35,10 @@ public class SearchController {
         else
             page = partRepo.findAll(pageable);
 
-        Integer countMin = CalcAmount.calculate(partRepo.findAll());
-
 
         model.put("page", page);
         model.put("countAll", page.getTotalElements());
-        model.put("countMin", countMin);
+        model.put("countMin", CalcAmount.calculate(partRepo.findAll()));
         model.put("url", "/search");
 
         return "search";
