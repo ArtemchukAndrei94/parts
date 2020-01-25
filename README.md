@@ -1,2 +1,3 @@
 # parts
-CRUD приложение - Spring (MVC, DATA-JPA), Freemarker
+Склад компьютерных комплектующих
+CRUD приложение - Spring (MVC, DATA-JPA), Freemarker, Bootstrap
